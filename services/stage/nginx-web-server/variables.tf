@@ -1,5 +1,5 @@
 variable "instance_type" {
-  description = "Dev instance size"
+  description = "Stage instance size"
   type        = string
   default     = "t3.micro"
 }

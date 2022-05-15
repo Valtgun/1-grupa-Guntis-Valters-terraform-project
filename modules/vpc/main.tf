@@ -116,7 +116,35 @@ resource "aws_route_table_association" "rta_private" {
   route_table_id = aws_route_table.rt-private.id
 }
 
-#5f-i------------------------------
+#5f-i&ii---------------------------
+resource "aws_security_group" "inbound" {
+  name        = "inbound-traffic"
+  vpc_id      = aws_vpc.main.id
 
+  ingress {
+    description      = "HTTP"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
+  ingress {
+    description      = "HTTPS"
+    from_port        = 443
+    to_port          = 443
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
 
-#5f-ii-----------------------------
+  ingress {
+    description      = "SSH"
+    from_port        = 22
+    to_port          = 22
+    protocol         = "tcp"
+    cidr_blocks      = ["212.93.112.80/32"]
+  }
+
+  tags = {
+    Name = "GV allow_inbound"
+  }
+}

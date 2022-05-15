@@ -79,10 +79,44 @@ resource "aws_nat_gateway" "nat_public" {
 }
 
 #5e-i------------------------------
+resource "aws_route_table" "rt-public" {
+  vpc_id = aws_vpc.main.id
 
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "GV route table public"
+  }
+}
+
+resource "aws_route_table_association" "rta_public" {
+  subnet_id = aws_subnet.public1.id
+  route_table_id = aws_route_table.rt-public.id
+}
 
 #5e-ii-----------------------------
+resource "aws_route_table" "rt-private" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_eip.nat_ip.id
+  }
+
+  tags = {
+    Name = "GV route table private"
+  }
+}
+
+resource "aws_route_table_association" "rta_private" {
+  subnet_id = aws_subnet.private1.id
+  route_table_id = aws_route_table.rt-private.id
+}
 
 #5f-i------------------------------
+
 
 #5f-ii-----------------------------

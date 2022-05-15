@@ -103,7 +103,8 @@ resource "aws_route_table" "rt-private" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_public.id
+    # need to check if this is nat_gateway_id or gateway_id
+    gateway_id = aws_nat_gateway.nat_public.id
   }
 
   tags = {

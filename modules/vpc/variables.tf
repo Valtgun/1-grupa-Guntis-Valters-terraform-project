@@ -1,5 +1,5 @@
 variable "region" {
   description = "Region"
   type        = list(string)
-  default     = ["us-west-1"]
+  default     = ["us-east-1"]
 }

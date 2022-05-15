@@ -6,6 +6,13 @@ resource "aws_instance" "app_server" {
   #subnet_id = vpc.aws_subnet.private1.id
   subnet_id = var.subnet_id_pub1
 
+  user_data = <<EOF
+  #!/bin/bash
+  sudo apt-get install -y nginx
+  sudo systemctl enable nginx
+  sudo systemctl start nginx
+EOF
+
   tags = {
     Name = "GV Ubuntu 20.04 LTS"
   }

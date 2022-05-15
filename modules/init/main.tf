@@ -4,17 +4,23 @@ provider "aws" {
 
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "GV-terraform-up-and-running-state"
+}
+
+resource "aws_s3_bucket_versioning" "example" {
+  bucket = aws_s3_bucket.terraform_state.id
   # Enable versioning so we can see the full revision history of our
   # state files
-  versioning {
-    enabled = true
+  # update to versioning https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/version-4-upgrade#changes-to-s3-bucket-drift-detection
+  versioning_configuration {
+    status = "Enabled"
   }
-  # Enable server-side encryption by default
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "example" {
+  bucket = aws_s3_bucket.terraform_state.id
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
     }
   }
 }
